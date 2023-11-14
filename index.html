@@ -72,7 +72,7 @@
         var template_text = document.getElementById('table_template').innerHTML;
         var compiled_template_text = Handlebars.compile(template_text);
         compiled_html = compiled_template_text({
-          rows: cit_students
+          rows: bus_students
         })
         document.getElementById('people_table').innerHTML = compiled_html;
       } else {
