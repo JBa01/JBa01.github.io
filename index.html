@@ -1,83 +1,74 @@
-<!---
-    CIT 140 Programming Project 5
---->
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>students by major</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
-  </head>
-  <body>
-    <h2>Select a Major</h2>
-    <form>
-      <button type="button" id="show_cit">CIT Majors</button>
-      <button type="button" id="show_bus">Buisness Majors</button>
-    </form>
-    <h3>We filter our dataset by major</h3>
-    <div id="people_table"></div>
-  </body>
-  <script type="text/x-handlebars-template" id="table_template"> <table cellspacing='12'>
-				<tr>
-					<th>Name</th>
-					<th>Major</th>
-					<th>Midterm</th>
-					<th>Final</th>
-				</tr>
-       {{#each rows}}
-            
-				<tr>
-					<td>{{name}}</td>
-					<td>{{major}}</td>
-					<td>{{midterm}}</td>
-					<td>{{final}}</td>
-				</tr>
-       {{/each}}
-   
-			</table>
-		</script>
-  <script>
-    document.getElementById('show_cit').onclick = async function() {
-      var url = "cit5students.json";
-      var response = await fetch(url);
-      var cit_students=[];
-      if (response.ok) {
-        var data = await response.json();
-        for (const student of data) {
-          if (student.major === 'CIT') {
-            cit_students.push(student);
-          }
-        }
-        var template_text = document.getElementById('table_template').innerHTML;
-        var compiled_template_text = Handlebars.compile(template_text);
-        compiled_html = compiled_template_text({
-          rows: cit_students
-        })
-        document.getElementById('people_table').innerHTML = compiled_html;
-      } else {
-        document.querySelector('#people_table').innerHTML = "Data not found";
-      }
-    }
-    document.getElementById('show_bus').onclick = async function() {
-      var url = "cit5students.json";
-      var response = await fetch(url);
-      var bus_students=[];
-      if (response.ok) {
-        var data = await response.json();
-        for (const student of data) {
-          if (student.major === 'BUS') {
-            bus_students.push(student);
-          }
-        }
-        var template_text = document.getElementById('table_template').innerHTML;
-        var compiled_template_text = Handlebars.compile(template_text);
-        compiled_html = compiled_template_text({
-          rows: bus_students
-        })
-        document.getElementById('people_table').innerHTML = compiled_html;
-      } else {
-        document.querySelector('#people_table').innerHTML = "Data not found";
-      }
-    }
-  </script>
-</html>
+<html><head><title>speeding tickets</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+ <script src="https://unpkg.com/vue@next"></script> 
+
+</head>
+<body>
+
+<div class="container">
+<nav class="navbar navbar-inverse">
+
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Our Website</a>
+    </div>
+    <div>
+       <ul class="nav navbar-nav">
+           <li class="active"><a href="index.html">All Tickets</a></li>
+           <li><a href="25over.html">25mph or move over</a></li>
+       </ul>
+    </div>
+
+</nav>    <!-- end nav-bar -->
+
+<div id="ticketApp">
+
+     <h2>Tickets July 4, 2014, Minneapolis/St. Paul</h2>
+          
+          <table class="table table-bordered table-striped">
+              <tr>
+                  <th>Ticket ID</th>
+                  <th>Time</th>
+                  <th>Posted Speed</th>
+                  <th>MPH Over</th>
+                  <th>Violator Sex</th>
+              </tr>
+              <tr v-for = "ticket in tickets">
+                  <td>{{ticket.tid}}</td>
+                  <td>{{ticket.stop_time}}</td>
+                  <td>{{ticket.posted_speed}}</td>
+                  <td>{{ticket.actual_speed - ticket.posted_speed}}</td> 
+                  <td>{{ticket.violator_sex}}</td>
+              </tr>
+         </table>
+  
+</div>   <!-- end gpaApp -->
+</div>   <!-- end class= 'container' -->
+
+<script>
+       let app = Vue.createApp({
+            data() {     // returns an object of data
+                return {
+                    tickets: [],           // array to hold student data
+                }
+            },
+            created() {      // section executes as page loads
+                this.getData()  // load json data as page loads
+            },
+            methods: {    // ajax request
+                async getData() {
+                    const response = await fetch('tickets1.json')
+                    this.tickets = await response.json()
+                    //tickets = data.filter( (item) => item.major == majSelect );     
+                },
+            }
+          })
+      
+      app.mount('#ticketApp')   //in which div to mount the vue app
+		  
+
+</script>
+</body></html>
