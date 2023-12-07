@@ -37,13 +37,13 @@
                   <th>Violator Sex</th>
               </tr>
               <tr v-for = "ticket in tickets">
-                <div v-if="ticket.actual_speed - ticket.posted_speed > 25">
+                <td v-if="ticket.actual_speed - ticket.posted_speed > 25">
                     <td>{{ticket.tid}}</td>
                     <td>{{ticket.stop_time}}</td>
                     <td>{{ticket.posted_speed}}</td>
                     <td>{{ticket.actual_speed - ticket.posted_speed}}</td> 
                     <td>{{ticket.violator_sex}}</td>
-                </div>
+                </td>
               </tr>
          </table>
   
