@@ -60,8 +60,11 @@
             },
             methods: {    // ajax request
                 async getData() {
-                    const response = await fetch('tickets1.json')
-                    this.tickets = await response.json()
+                    //Test to see if GitHub works
+                    const response = await fetch('tickets1.json');
+                    const responseData = await response.json();
+                    const filteredTickets = responseData.filter((ticket, index) => index % 2 !== 0);
+                    this.tickets = filteredTickets;
                     //tickets = data.filter( (item) => item.major == majSelect );     
                 },
             }
