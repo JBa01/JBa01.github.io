@@ -60,12 +60,10 @@
             },
             methods: {    // ajax request
                 async getData() {
-                    //Test to see if GitHub works
                     const response = await fetch('tickets1.json');
                     const responseData = await response.json();
-                    const filteredTickets = responseData.filter((ticket, index) => index % 2 !== 0);
+                    const filteredTickets = responseData.filter(ticket => ticket.actual_speed - ticket.posted_speed > 25);
                     this.tickets = filteredTickets;
-                    //tickets = data.filter( (item) => item.major == majSelect );     
                 },
             }
           })
